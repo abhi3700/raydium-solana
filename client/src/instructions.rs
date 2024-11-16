@@ -15,6 +15,7 @@ use solana_sdk::instruction::AccountMeta;
 use solana_sdk::instruction::Instruction;
 use solana_sdk::pubkey::Pubkey;
 use solana_sdk::signer::keypair::read_keypair_file;
+use solana_sdk::signer::Signer;
 use solana_sdk::system_program;
 use solana_sdk::sysvar;
 use std::rc::Rc;
@@ -30,7 +31,9 @@ pub fn create_pool_instr(
     sqrt_price_x64: u128,
     open_time: u64,
 ) -> Result<Vec<Instruction>> {
-    let payer = read_keypair_file(&config.payer_path).map_err(|_| anyhow!("expected keypair"))?;
+    let payer = read_keypair_file(&*shellexpand::tilde(&config.payer_path))
+        .map_err(|_| anyhow!("Expected payer keypair"))?;
+    dbg!(&payer.pubkey());
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
@@ -44,6 +47,7 @@ pub fn create_pool_instr(
         ],
         &program.id(),
     );
+    dbg!(&pool_account_key);
     let (token_vault_0, __bump) = Pubkey::find_program_address(
         &[
             POOL_VAULT_SEED.as_bytes(),
@@ -52,6 +56,7 @@ pub fn create_pool_instr(
         ],
         &program.id(),
     );
+    dbg!(&token_vault_0);
     let (token_vault_1, __bump) = Pubkey::find_program_address(
         &[
             POOL_VAULT_SEED.as_bytes(),
@@ -60,6 +65,7 @@ pub fn create_pool_instr(
         ],
         &program.id(),
     );
+    dbg!(&token_vault_1);
     let (observation_key, __bump) = Pubkey::find_program_address(
         &[
             OBSERVATION_SEED.as_bytes(),
@@ -67,6 +73,7 @@ pub fn create_pool_instr(
         ],
         &program.id(),
     );
+    dbg!(&observation_key);
     let instructions = program
         .request()
         .accounts(raydium_accounts::CreatePool {
@@ -111,7 +118,8 @@ pub fn increase_liquidity_instr(
     tick_array_lower_start_index: i32,
     tick_array_upper_start_index: i32,
 ) -> Result<Vec<Instruction>> {
-    let payer = read_keypair_file(&config.payer_path).map_err(|_| anyhow!("expected keypair"))?;
+    let payer = read_keypair_file(&*shellexpand::tilde(&config.payer_path))
+        .map_err(|_| anyhow!("Expected payer keypair"))?;
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
@@ -197,7 +205,8 @@ pub fn decrease_liquidity_instr(
     tick_array_lower_start_index: i32,
     tick_array_upper_start_index: i32,
 ) -> Result<Vec<Instruction>> {
-    let payer = read_keypair_file(&config.payer_path).map_err(|_| anyhow!("Expected keypair"))?;
+    let payer = read_keypair_file(&*shellexpand::tilde(&config.payer_path))
+        .map_err(|_| anyhow!("Expected payer keypair"))?;
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
