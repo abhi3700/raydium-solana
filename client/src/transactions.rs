@@ -9,7 +9,7 @@ use crate::ClientConfig;
 use anchor_client::Program;
 use anyhow::Result;
 use raydium_amm_v3::libraries::{liquidity_math, tick_math};
-use solana_rpc_client::rpc_client::RpcClient;
+use solana_client::rpc_client::RpcClient;
 use solana_sdk::instruction::AccountMeta;
 use solana_sdk::program_pack::Pack;
 use solana_sdk::pubkey::Pubkey;

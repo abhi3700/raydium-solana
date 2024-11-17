@@ -9,7 +9,7 @@ use anyhow::anyhow;
 use anyhow::Result;
 use ini::Ini;
 use raydium_amm_v3::states::POOL_TICK_ARRAY_BITMAP_SEED;
-use solana_rpc_client::rpc_client::RpcClient;
+use solana_client::rpc_client::RpcClient;
 use solana_sdk::pubkey::Pubkey;
 use solana_sdk::signer::keypair::read_keypair_file;
 use std::str::FromStr;

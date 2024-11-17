@@ -4,8 +4,8 @@ use solana_account_decoder::{
     parse_token::{TokenAccountType, UiAccountState},
     UiAccountData,
 };
+use solana_client::rpc_client::RpcClient;
 use solana_client::{rpc_config::RpcSendTransactionConfig, rpc_request::TokenAccountsFilter};
-use solana_rpc_client::rpc_client::RpcClient;
 use solana_sdk::account::Account;
 use solana_sdk::{
     commitment_config::CommitmentConfig, pubkey::Pubkey, signature::Signature,
