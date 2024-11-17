@@ -1,6 +1,6 @@
 use anchor_client::Cluster;
 use anyhow::anyhow;
-use solana_rpc_client::nonblocking::rpc_client::RpcClient;
+use solana_client::nonblocking::rpc_client::RpcClient;
 use solana_sdk::pubkey::Pubkey;
 use std::{ops::Sub, str::FromStr};
 
