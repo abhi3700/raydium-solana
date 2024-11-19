@@ -70,7 +70,7 @@ fn load_cfg(client_config: &String) -> Result<ClientConfig> {
         .section(Some("Pool"))
         .expect("Didn't define Pool section");
     let mut mint0 = None;
-    let mint0_str = pool_section.get("mint1").unwrap();
+    let mint0_str = pool_section.get("mint0").unwrap();
     if !mint0_str.is_empty() {
         mint0 = Some(Pubkey::from_str(&mint0_str).unwrap());
     }
@@ -173,7 +173,7 @@ async fn main() -> anyhow::Result<()> {
         .mint0
         .ok_or_else(|| anyhow!("Invalid mint0 pubkey"))?;
     let mint1 = pool_config
-        .mint0
+        .mint1
         .ok_or_else(|| anyhow!("Invalid mint1 pubkey"))?;
     if true {
         create_pool_tx(
